@@ -1,0 +1,133 @@
+
+<!DOCTYPE HTML>
+{%load static %}
+{% load cart_tag %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+
+<title>OnlineStore</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js'%} "type="text/javascript"></script>
+
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 
+<link href="fonts\fontawesome\css\all.min.css" type="text/css" rel="stylesheet">
+-->
+<!-- custom style -->
+<link href="{% static 'css/mobile.css' %}" rel="stylesheet" type="text/css"/>
+
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+</script>
+
+</head>
+<body>
+
+
+<!-- =============== screen-wrap =============== -->
+<div class="screen-wrap">
+
+
+<header class="app-header bg-primary">
+	<a href="javascript:history.go(-1)" class="btn-header"><i class="fa fa-arrow-left"></i></a>
+  <h5 class="title-header"> Order </h5>
+  <div class="header-right">  </div>
+</header> <!-- section-header.// -->
+
+
+<main class="app-content">
+<section class="padding-around">
+
+
+ <div class="steps-wizard clearfix mb-3">
+    <div class="step current" data-step-num="1">
+        <div class="step-icon"> 1 </div>
+        <span class="step-title">Shipping</span>
+    </div>
+    <div class="step" data-step-num="2">
+        <div class="step-icon"> 2 </div>
+        <span class="step-title">Payment Method</span>
+    </div>
+    <div class="step" data-step-num="3">
+        <div class="step-icon"> 3 </div>
+        <span class="step-title">Confirm</span>
+    </div>
+</div>
+
+
+<form action="#">
+<!--
+<p class="alert alert-success"> Some message is here!</p>
+-->
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" value={{request.user.email}} readonly>
+  </div>
+
+  <div class="form-group">
+    <input type="email" class="form-control" placeholder="Email" value={{request.user.username}} readonly>
+  </div>
+
+  <div class="form-group ">
+
+   <div >
+    <input type="tel" class="form-control" placeholder="Phone" value={{request.user.last_name}} readonly>
+   </div>
+  </div>
+<!--
+   <div class="form-group">
+    <select class="custom-select form-control">
+      <option selected>Region</option>
+        <option>Arizona</option>
+        <option>Washington</option>
+        <option>New York</option>
+      </select>
+   </div>
+-->
+   <div class="form-group">
+    <input type="text" class="form-control" placeholder="Address" value={{request.user.first_name}} readonly>
+   </div>
+<!--
+
+    <label class="custom-control my-4 custom-checkbox">
+      <input type="checkbox" checked="" class="custom-control-input">
+      <div class="custom-control-label">Save my address</div>
+    </label>
+    -->
+
+<a href="{% url 'orderstep2' %}" class="btn btn-primary btn-block mt-3"> <span class="text">  Save and Continue </span> <i class="fa fa-chevron-right"></i></a>
+
+  
+</form>
+
+<br><br>
+
+</section> <!-- section-products  .// -->
+
+</main>
+</div> 
+<!-- =============== screen-wrap end.// =============== -->
+
+
+</body>
+</html>

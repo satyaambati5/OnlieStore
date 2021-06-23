@@ -1,0 +1,184 @@
+
+<!DOCTYPE HTML>
+{%load static %}
+{% load cart_tag %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+
+<title>OnlineStore</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js'%} "type="text/javascript"></script>
+
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 
+<link href="fonts\fontawesome\css\all.min.css" type="text/css" rel="stylesheet">
+-->
+<!-- custom style -->
+<link href="{% static 'css/mobile.css' %}" rel="stylesheet" type="text/css"/>
+
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+</script>
+
+</head>
+<body>
+
+
+<!-- =============== screen-wrap =============== -->
+<div class="screen-wrap">
+
+
+<header class="app-header bg-primary">
+	<a href="{% url 'categories' %}" class="btn-header"><i class="fa fa-arrow-left"></i></a>
+	<h5 class="title-header"> Your cart ({{request.session.cart|length}}) </h5>
+	<div class="header-right">  </div>
+</header> <!-- section-header.// -->
+	
+
+<main class="app-content">
+<section class="section-products padding-around">
+ {% for key,value in request.session.cart.items %}
+<article class="item-cart">
+	<figure class="itemside mb-3">
+		<div class="aside"><img src="data:image/jpeg;base64,{{value.image}}" class="rounded img-md"></div>
+		<figcaption class="info">
+			<a  class="title text-truncate">{{value.name}}</a>
+			<small class="text-muted d-block mb-1"><br>  
+			</small>
+
+			<div class="price-wrap mb-3">
+				<small class="text-muted">{{value.price}} /per item</small><br>
+				<strong class="text">{{ value.price|multiply:value.quantity }}/-</strong>
+			</div>
+		</figcaption>
+	</figure>
+
+	<a href="{% url 'item_clear' value.product_id %}" class="btn btn-icon btn-outline-danger"> <i class="fa fa-times"></i></a>
+	
+	<div class="input-group input-spinner float-right">
+		<div class="input-group-prepend">
+			<a href="{% url 'item_decrement' value.product_id %}" class="btn btn-light" type="button"> <i class="fa fa-minus"></i> </a>
+		</div>
+		<input type="number" class="form-control" value={{value.quantity}}>
+		<div class="input-group-append">
+			<a href="{% url 'item_increment' value.product_id %}" class="btn btn-light" type="button"> <i class="fa fa-plus"></i> </a>
+		</div>
+	</div>
+	
+</article> <!-- item-cart.// -->
+
+{% endfor %}
+
+
+<!-- item-cart.// -->
+
+
+</section> <!-- section-products  .// -->
+
+<hr class="divider">
+
+<section class="padding-around">
+	<dl class="dlist-align text-muted">
+		<dt>Total price:</dt>
+		<dd class="text-right"> {{cart_total_amount}}/-</dd>
+	</dl>
+	{% if request.session.cart|length == 0 %}
+	<dl class="dlist-align text-muted">
+		<dt>Shipping:</dt>
+		<dd class="text-right">0.00</dd>
+	</dl>
+	{% else %}
+	<dl class="dlist-align text-muted">
+		<dt>Shipping:</dt>
+		<dd class="text-right">50.00</dd>
+	</dl>
+	{% endif %}
+	<dl class="dlist-align">
+		<dt><strong>Total:</strong></dt>
+		<dd class="text-right"><strong>{{cart_total_amount}}/-</strong></dd>
+	</dl>
+{% if request.session.cart|length == 0 %}
+                  <h4  class=" btn btn-primary btn-block text-center mt-3">your cart is empty</h4>
+
+                  {% else %}
+
+                  	<a href="{% url 'orderstep1' %}" class="btn btn-primary btn-block mt-3"> <span class="text"> Continue </span> <i class="fa fa-chevron-right"></i></a>
+                  	<a href="{% url 'cart_clear' %}" class="btn btn-primary btn-block mt-3"> <span class="text"> Clear Cart </span> <i class="fa fa-times"></i></a>
+					
+
+                  {% endif %}
+	</section>
+
+</main>
+
+<nav class="nav-bottom">
+	<a href=" {% url 'home' %}" class="nav-link">
+		<i class=" fa fa-home"></i><span class="text">Home</span>
+	</a>
+
+	<a href="{% url 'categories' %}" class="nav-link">
+		<i class="icon fa fa-box"></i><span class="text">Store</span>
+	</a>
+
+	<a href="{% url 'cartpage' %}" class="nav-link active">
+		<i class="icon fa fa-shopping-cart"></i><span class="text">Cart</span>
+	</a>
+{% if user.is_authenticated %}
+	<a href="{% url 'profile' %}" class="nav-link">
+		<i class="icon fa fa-user"></i><span class="text">Profile</span>
+	</a>
+	{% endif %}
+</nav> <!-- nav-bottom -->
+
+
+</div> 
+<!-- =============== screen-wrap end.// =============== -->
+<script>
+		function storePagePosition() {
+			var page_y = window.pageYOffset;
+			localStorage.setItem("page_y", page_y);
+		}
+
+
+		window.addEventListener("scroll", storePagePosition);
+
+
+		var currentPageY;
+
+		try {
+			currentPageY = localStorage.getItem("page_y");
+
+			if (currentPageY === undefined) {
+				localStorage.setItem("page_y") = 0;
+			}
+
+			window.scrollTo(0, currentPageY);
+		} catch (e) {
+			// no localStorage available
+		}
+	</script>
+
+</body>
+</html>

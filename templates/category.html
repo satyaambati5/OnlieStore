@@ -1,0 +1,332 @@
+
+<!DOCTYPE HTML>
+{%load static %}
+{% load cart_tag %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+
+<title>OnlineStore</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js'%} "type="text/javascript"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 
+<link href="fonts\fontawesome\css\all.min.css" type="text/css" rel="stylesheet">
+-->
+<!-- custom style -->
+<link href="{% static 'css/mobile.css' %}" rel="stylesheet" type="text/css"/>
+
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('a[data-toggle="portfilter"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
+</script>
+</head>
+<body>
+
+
+<!-- =============== screen-wrap =============== -->
+<div class="screen-wrap">
+
+<header class="app-header bg-primary">
+    <a href="{% url 'home' %}" class="btn-header"><i class="fa fa-arrow-left"></i></a>
+    <h5 class="title-header"> OnlineStore </h5>
+    <div class="header-right"> <a href="{% url 'cartpage' %}" class="btn-header"><i class="fa fa-shopping-cart"> <span id="checkout_items" class="checkout_items">{{request.session.cart|length}}</span></i></a> </div>
+</header> <!-- section-header.// -->
+
+<main class="app-content ">
+<section class="scroll-horizontal padding-around">
+        <div class="item-sm">
+            <a href="#dairy">
+                <div class="img-wrap">
+                    <img class="rounded-circle img-sm" src="{%static 'images/dealbanners/catbg2.png' %}" alt="">
+                </div>
+                <div class="text-wrap pt-2 text-center">
+                    <p class="text-truncate">dairy</p>
+                </div>
+            </a>
+        </div>
+        <div class="item-sm">
+            <a href="#vege">
+                <div class="img-wrap">
+                    <img class="rounded-circle img-sm" src="{%static 'images/dealbanners/catbg1.jpg' %}" alt="">
+                </div>
+                <div class="text-wrap pt-2 text-center">
+                    <p class="text-truncate">vegetables</p>
+                </div>
+            </a>
+        </div>
+        <div class="item-sm">
+            <a href="#grocery">
+                <div class="img-wrap">
+                    <img class="rounded-circle img-sm" src="{%static 'images/dealbanners/catbg3.png' %}" alt="">
+                </div>
+                <div class="text-wrap pt-2 text-center">
+                    <p class="text-truncate">Detergents</p>
+                </div>
+            </a>
+        </div>
+        <div class="item-sm">
+            <a href="#grocery">
+                <div class="img-wrap">
+                    <img class="rounded-circle img-sm" src="{%static 'images/dealbanners/catbg1.jpg' %}" alt="">
+                </div>
+                <div class="text-wrap pt-2 text-center">
+                    <p class="text-truncate">groceries</p>
+                </div>
+            </a>
+        </div>
+
+</section> 
+
+
+<hr class="divider mb-3">
+
+<section  class="padding-around ">
+<div class ="row">
+<div class="col-sm-6">
+<div class="filter filter-basic  myTab">
+<a  class="btn btn-sm btn-light " data-toggle="portfilter" data-target="all"> <i class="fa fa-shopping-cart"></i> All  </a>
+<a  class="btn btn-sm btn-light  "data-toggle="portfilter" data-target="dairy"> <i class="fa fa-shopping-cart"></i> Dairy </a>
+<a  class="btn btn-sm btn-light"data-toggle="portfilter" data-target="vegetables"> <i class="fa fa-shopping-cart"></i> Vegetables </a>
+<a  class="btn btn-sm btn-light" data-toggle="portfilter" data-target="grocery"> <i class="fa fa-shopping-cart"></i> Grocery</a>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<section class="padding-around" >
+<h5 class="text-center" id ="dairy"><b>Dairy Products</b></h5>
+
+<div class="row">
+
+{%for product in dairy %}
+
+<div class="col-6 col-lg-2 col-md-3 item" id={{product.category}} data-tag="{{product.category}}">
+		<a class="product-sm">
+			<div class="img-wrap"> <img src="data:image/png;base64,{{product.products_image}}"></div>
+			<div class="text-wrap">
+				<p class="title text-truncate">{{product.name}} </p>
+				<div class="price-wrap mb-3">
+					<span class="price">₹{{product.span_price}}0/-</span><span>₹{{product.price}}0/-</span>
+					<div>
+                    {% if product.id in cartpid %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i>Added</a>
+                {% else %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i> ADD To Cart</a>
+            
+                {% endif %}
+                </div>
+				</div> <!-- price-wrap.// -->
+				
+			</div> 
+		</a>
+	</div>
+	
+	{% endfor %}
+{% comment %} 
+		<div class="col-12 col-sm-12 col-md-4" data-tag="{{product.category}}">
+	
+		<fig class="product-list mb-3" >
+			<div>
+				<a href="" class="img-wrap">
+					<img src="data:image/png;base64,{{product.products_image}}">
+					
+				</a>
+			</div>
+			<div class="info-wrap">
+                <p class="title">{{product.name}} </p>
+                <small class="text-muted">{{product.category}}</small>
+				<div class="price-wrap mb-3">
+					<span class="price">{{product.span_price}}/-</span> {{product.price}}/-
+				</div> 
+                <div>
+				
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i> ADD</a>
+		
+		<!--a href="#" class="btn btn-sm btn-light">  <i class="fa fa-heart"></i> </a>
+					-->
+                </div>
+			</div> 
+		</fig>
+		</div> <!-- col.// -->
+ {% endcomment %}
+		
+
+</div> <!-- row end -->
+
+
+</section> <!-- section body .// -->
+<section class="padding-around" >
+<h5 class="text-center" id ="vege"><b>Vegetables</b></h5>
+
+<div class="row">
+
+{%for product in vege %}
+
+<div class="col-6 col-lg-2 col-md-3 item" id={{product.category}} data-tag="{{product.category}}">
+		<a class="product-sm">
+			<div class="img-wrap"> <img src="data:image/png;base64,{{product.products_image}}"></div>
+			<div class="text-wrap">
+				<p class="title text-truncate">{{product.name}} </p>
+				<div class="price-wrap mb-3">
+					<span class="price">₹{{product.span_price}}0/-</span><span>₹{{product.price}}0/-</span>
+					<div>
+                    {% if product.id in cartpid %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i>Added</a>
+                {% else %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i> ADD To Cart</a>
+            
+                {% endif %}
+                </div>
+				</div> <!-- price-wrap.// -->
+				
+			</div> 
+		</a>
+	</div>
+	
+	{% endfor %}
+
+</div> <!-- row end -->
+
+
+</section> <!-- section body .// -->
+
+<section class="padding-around" >
+<h5 class="text-center" id ="grocery" ><b>grocery</b></h5>
+
+<div class="row">
+
+{%for product in grocery %}
+
+<div class="col-6 col-lg-2 col-md-3 item" id={{product.category}} data-tag="{{product.category}}">
+		<a class="product-sm">
+			<div class="img-wrap"> <img src="data:image/png;base64,{{product.products_image}}"></div>
+			<div class="text-wrap">
+				<p class="title text-truncate">{{product.name}} </p>
+				<div class="price-wrap mb-3">
+					<span class="price">₹{{product.span_price}}0/-</span><span>₹{{product.price}}0/-</span>
+					<div>
+                    {% if product.id in cartpid %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i>Added</a>
+                {% else %}
+               <a href="{% url 'cart_add' product.id %}" class="btn btn-sm btn-primary-light"> <i class="fa fa-shopping-cart"></i>ADD To Cart</a>
+            
+                {% endif %}
+                </div>
+				</div> <!-- price-wrap.// -->
+				
+			</div> 
+		</a>
+	</div>
+	
+	{% endfor %}
+		
+
+</div> <!-- row end -->
+
+
+</section> <!-- section body .// -->
+
+</main>
+
+<nav class="nav-bottom">
+	<a href="{% url 'home' %}" class="nav-link">
+        <i class="icon fa fa-home"></i><span class="text">Home</span>
+    </a>
+	
+    <a href="{% url 'categories' %}" class="nav-link active">
+        <i class="icon fa fa-box"></i><span class="text">Store</span>
+    </a>
+	 <a href="{% url 'search' %}" class="nav-link ">
+        <i class="icon fa fa-search "aria-hidden="true"></i></i><span class="text">Search</span>
+    </a>
+	
+    <a href="{% url 'cartpage' %}" class="nav-link">
+        <i class="icon fa fa-shopping-cart"></i><span class="text">Cart</span>
+    </a>
+	{% if user.is_authenticated %}
+    <a href="{% url 'profile' %}" class="nav-link">
+        <i class="icon fa fa-user"></i><span class="text">Profile</span>
+    </a>
+	{% endif %}
+</nav> <!-- nav-bottom -->
+
+
+</div> 
+<!-- =============== screen-wrap end.// =============== -->
+
+
+<script>
+		function storePagePosition() {
+			var page_y = window.pageYOffset;
+			localStorage.setItem("page_y", page_y);
+		}
+
+
+		window.addEventListener("scroll", storePagePosition);
+
+
+		var currentPageY;
+
+		try {
+			currentPageY = localStorage.getItem("page_y");
+
+			if (currentPageY === undefined) {
+				localStorage.setItem("page_y") = 0;
+			}
+
+			window.scrollTo(0, currentPageY);
+		} catch (e) {
+			// no localStorage available
+		}
+	</script>
+	<script>
+	/* ============================================================
+ * bootstrap-portfilter.js for Bootstrap v2.3.1
+ * https://github.com/geedmo/portfilter
+ * ============================================================ filter using bootstrap*/
+ 
+!function(d){var c="portfilter";var b=function(e){this.$element=d(e);this.stuff=d("[data-tag]");this.target=this.$element.data("target")||""};b.prototype.filter=function(g){var e=[],f=this.target;this.stuff.fadeOut("fast").promise().done(function(){d(this).each(function(){if(d(this).data("tag")==f||f=="all"){e.push(this)}});d(e).show()})};var a=d.fn[c];d.fn[c]=function(e){return this.each(function(){var g=d(this),f=g.data(c);if(!f){g.data(c,(f=new b(this)))}if(e=="filter"){f.filter()}})};d.fn[c].defaults={};d.fn[c].Constructor=b;d.fn[c].noConflict=function(){d.fn[c]=a;return this};d(document).on("click.portfilter.data-api","[data-toggle^=portfilter]",function(f){d(this).portfilter("filter")})}(window.jQuery);
+
+	</script>
+
+
+</body>
+</html>
